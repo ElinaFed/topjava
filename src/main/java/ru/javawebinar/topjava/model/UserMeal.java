@@ -20,6 +20,16 @@ public class UserMeal
         return dateTime;
     }
 
+    public LocalDate getDate()
+    {
+        return LocalDate.of(dateTime.getYear(), dateTime.getMonth(), dateTime.getDayOfMonth());
+    }
+
+    public LocalTime getTime()
+    {
+        return LocalTime.of(dateTime.getHour(),dateTime.getMinute(),dateTime.getSecond());
+    }
+    
     public String getDescription()
     {
         return description;
