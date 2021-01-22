@@ -58,7 +58,7 @@ public class UserMealsUtil
                          Collectors.summingInt(UserMeal::getCalories))
                          );
 
-        List<UserMealWithExcess> res = meals.stream()
+        List<UserMealWithExcess> outUserMealList = meals.stream()
              .filter(s -> TimeUtil.isBetweenHalfOpen(s.getTime(),startTime,endTime))
              .map(s -> new UserMealWithExcess( s.getDateTime(),
                                                s.getDescription(),
@@ -66,6 +66,6 @@ public class UserMealsUtil
                                          exceedForDate.get(s.getDate()) > caloriesPerDay))
              .collect(Collectors.toList());
 
-        return res;
+        return outUserMealList;
     }
 }
