@@ -4,17 +4,32 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-public class Meal {
-    private final LocalDateTime dateTime;
+public class Meal implements Comparable<Meal>{
+    private long id;
 
-    private final String description;
+    private LocalDateTime dateTime;
 
-    private final int calories;
+    private String description;
 
-    public Meal(LocalDateTime dateTime, String description, int calories) {
+    private int calories;
+
+    public Meal(long id, LocalDateTime dateTime, String description, int calories) {
+        this.id = id;
         this.dateTime = dateTime;
         this.description = description;
         this.calories = calories;
+    }
+    public long getID() {  return id;    }
+
+    @Override
+    public boolean equals(Object o) {
+        return (o instanceof Meal) && (this.id == ((Meal) o).getID());
+    }
+
+    @Override
+    public int compareTo(Meal o)
+    {
+        return (this.id == o.getID()) ? 0 : (this.id > o.getID()) ? 1 : -1;
     }
 
     public LocalDateTime getDateTime() {
