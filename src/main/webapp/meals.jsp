@@ -21,7 +21,7 @@
             </thead>
             <tbody>
                 <c:forEach items="${listMeals}" var="meal">
-                    <tr style="background-color:${meal.isOver() ? 'red' : 'green'}">
+                    <tr style="color:${meal.isOver() ? 'red' : 'green'}">
                         <th>
                             <fmt:parseDate value="${meal.getDateTime()}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both" />
                             <fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${parsedDateTime}" />
