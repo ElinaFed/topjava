@@ -25,6 +25,6 @@ public class UserServlet extends HttpServlet {
         String idUser = request.getParameter("selectedUser");
         log.debug("User update = " + idUser);
         SecurityUtil.setAuthUserId(Integer.valueOf(idUser));
-        response.sendRedirect(request.getContextPath());
+        response.sendRedirect("meals");
     }
 }

@@ -30,21 +30,19 @@ public class InMemoryMealRepository implements MealRepository {
 
             meal.setId(counter.incrementAndGet());
 
-            Map<Integer, Meal> mealsUser = repository.get(userId);
-            if (mealsUser != null) {
-                mealsUser.putIfAbsent(meal.getId(), meal);
-            } else {
-                mealsUser = new ConcurrentHashMap<>();
-                mealsUser.putIfAbsent(meal.getId(), meal);
-                repository.putIfAbsent(userId, mealsUser);
+            Map<Integer, Meal>  userMeals = repository.get(userId);
+            if (userMeals == null) {
+                userMeals = new ConcurrentHashMap<>();
+                repository.putIfAbsent(userId, userMeals);
+                userMeals = repository.get(userId);
             }
+            userMeals.putIfAbsent(meal.getId(), meal);
             return meal;
         }
         // handle case: update, but not present in storage
-        Map<Integer, Meal> mealsUser = repository.get(userId);
-        if (mealsUser != null && mealsUser.containsKey(meal.getId())) {
-            mealsUser.replace(meal.getId(), meal);
-            return meal;
+        Map<Integer, Meal> userMeals = repository.get(userId);
+        if (userMeals != null) {
+            return userMeals.replace(meal.getId(), meal);
         }
         return null;
     }
@@ -52,46 +50,43 @@ public class InMemoryMealRepository implements MealRepository {
     @Override
     public boolean delete(int userId, int id) {
         log.info("delete {}", userId + " idMeal = " + id);
-        Map<Integer, Meal> mealsUser = repository.get(userId);
-        return (mealsUser != null) ? (mealsUser.remove(id) != null) : false;
+        Map<Integer, Meal> userMeals = repository.get(userId);
+        return userMeals != null && (userMeals.remove(id) != null);
     }
 
     @Override
     public Meal get(int userId, int id) {
-        log.info("get {}", userId + " idMeal = " + id);
-        Map<Integer, Meal> mealsUser = repository.get(userId);
-        return (mealsUser != null) ? mealsUser.get(id) : null;
+        log.info("get {} idMeal = {}", userId, id);
+        Map<Integer, Meal> userMeals = repository.get(userId);
+        return (userMeals != null) ? userMeals.get(id) : null;
     }
 
     @Override
     public List getAll(int userId) {
         log.info("getAll {}", userId);
-        Map<Integer, Meal> mealsUser = repository.get(userId);
-        if (mealsUser != null) {
-            return getFiltered(mealsUser, ml -> true);
+        Map<Integer, Meal> userMeals = repository.get(userId);
+        if (userMeals != null) {
+            return getFiltered(userMeals, ml -> true);
         }
         return Collections.EMPTY_LIST;
     }
 
+    @Override
     public List<Meal> getFiltered(int userId, LocalDate startDate, LocalDate endDate) {
-        log.info("getFiltered {}", userId
-                + " startDate = " + startDate
-                + " endDate = " + endDate);
-        Map<Integer, Meal> mealsUser = repository.get(userId);
-        if (mealsUser != null) {
-            final LocalDate start = (startDate == null) ? LocalDate.MIN : startDate;
-            final LocalDate end = (endDate == null) ? LocalDate.MAX : endDate;
-            Predicate<Meal> filter = ml -> DateTimeUtil.isBetweenHalfOpen(ml.getDate(), start, end);
-            return getFiltered(mealsUser, filter);
+        log.info("getFiltered {} startDate ={} endDate = {}", userId, startDate, endDate);
+        Map<Integer, Meal> userMeals = repository.get(userId);
+        if (userMeals != null) {
+            Predicate<Meal> filter = ml -> DateTimeUtil.isBetweenHalfOpen(ml.getDate(), startDate, endDate);
+            return getFiltered(userMeals, filter);
         }
         return Collections.EMPTY_LIST;
     }
 
-    private List<Meal> getFiltered(Map<Integer, Meal> mealsUser, Predicate<Meal> filter) {
+    private List<Meal> getFiltered(Map<Integer, Meal> userMeals, Predicate<Meal> filter) {
         Comparator<Meal> compareByDateTime
                 = Comparator.comparing(Meal::getDateTime)
                 .reversed();
-        return mealsUser.values().stream()
+        return userMeals.values().stream()
                 .filter(filter)
                 .sorted(compareByDateTime)
                 .collect(Collectors.toList());

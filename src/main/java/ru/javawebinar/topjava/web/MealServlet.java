@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.util.MealsUtil;
 import ru.javawebinar.topjava.web.meal.MealRestController;
 
 import javax.servlet.ServletException;
@@ -29,6 +30,7 @@ public class MealServlet extends HttpServlet {
         try {
             appCtx = new ClassPathXmlApplicationContext("spring/spring-app.xml");
             mealController = appCtx.getBean(MealRestController.class);
+            MealsUtil.initStartList(mealController);
         }
         catch(Exception e) {
             appCtx.close();
@@ -94,9 +96,7 @@ public class MealServlet extends HttpServlet {
             case "all":
             default:
                 log.info("getAll");
-                request.setAttribute("meals",
-                        mealController.getAll()
-                                    );
+                request.setAttribute("meals", mealController.getAll());
                 request.getRequestDispatcher("/meals.jsp").forward(request, response);
                 break;
         }
