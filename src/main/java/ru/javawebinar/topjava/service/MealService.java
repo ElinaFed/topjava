@@ -27,19 +27,19 @@ public class MealService {
     }
 
     public Meal get(int userId, int id) {
-        return checkNotFoundWithId(repository.get(userId,id),id);
+        return checkNotFoundWithId(repository.get(userId, id), id);
     }
 
     public boolean delete(int userId, int id) {
-        return checkNotFoundWithId((Boolean)repository.delete(userId,id),id);
+        return checkNotFoundWithId((Boolean) repository.delete(userId, id), id);
     }
 
     public Meal create(int userId, Meal meal) {
-        return repository.save(userId,meal);
+        return repository.save(userId, meal);
     }
 
     public void update(int userId, Meal meal) {
-        checkNotFoundWithId (repository.save(userId,meal),userId);
+        checkNotFoundWithId(repository.save(userId, meal), userId);
     }
 
 }

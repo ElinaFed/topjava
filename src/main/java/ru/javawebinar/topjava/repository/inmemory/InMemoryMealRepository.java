@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.BiConsumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -29,13 +31,7 @@ public class InMemoryMealRepository implements MealRepository {
         if (meal.isNew()) {
 
             meal.setId(counter.incrementAndGet());
-
-            Map<Integer, Meal>  userMeals = repository.get(userId);
-            if (userMeals == null) {
-                userMeals = new ConcurrentHashMap<>();
-                repository.putIfAbsent(userId, userMeals);
-                userMeals = repository.get(userId);
-            }
+            Map<Integer, Meal>  userMeals = repository.computeIfAbsent(userId, integer -> new ConcurrentHashMap<>());
             userMeals.putIfAbsent(meal.getId(), meal);
             return meal;
         }

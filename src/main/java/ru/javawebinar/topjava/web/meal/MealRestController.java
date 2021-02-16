@@ -21,7 +21,7 @@ import static ru.javawebinar.topjava.web.SecurityUtil.authUserId;
 
 @Controller
 public class MealRestController {
-    private static final Logger log = LoggerFactory.getLogger(InMemoryMealRepository.class);
+    private static final Logger log = LoggerFactory.getLogger(MealRestController.class);
 
     @Autowired
     private MealService service;

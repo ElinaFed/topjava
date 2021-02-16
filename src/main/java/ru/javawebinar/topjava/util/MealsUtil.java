@@ -21,17 +21,17 @@ public class MealsUtil {
     public static void initStartList(MealRestController controller)
     {
         SecurityUtil.setAuthUserId(1);
-        controller.create(new Meal(LocalDateTime.of(2021, Month.FEBRUARY, 10, 10, 0), "Завтрак", 500)) ;
-        controller.create(new Meal(LocalDateTime.of(2021, Month.FEBRUARY, 10, 13, 0), "Обед", 1000)) ;
-        controller.create(new Meal(LocalDateTime.of(2021, Month.FEBRUARY, 10, 19, 0), "Ужин", 200)) ;
-        controller.create(new Meal(LocalDateTime.of(2021, Month.FEBRUARY, 11, 9, 0), "Завтрак", 500)) ;
-        controller.create(new Meal(LocalDateTime.of(2021, Month.FEBRUARY, 11, 14, 0), "Обед", 1200)) ;
-        controller.create(new Meal(LocalDateTime.of(2021, Month.FEBRUARY, 11, 20, 0), "Ужин", 430)) ;
+        controller.create(new Meal(LocalDateTime.of(2021, Month.FEBRUARY, 10, 10, 0), "User 1. Завтрак", 500)) ;
+        controller.create(new Meal(LocalDateTime.of(2021, Month.FEBRUARY, 10, 13, 0), "User 1. Обед", 1000)) ;
+        controller.create(new Meal(LocalDateTime.of(2021, Month.FEBRUARY, 10, 19, 0), "User 1. Ужин", 200)) ;
+        controller.create(new Meal(LocalDateTime.of(2021, Month.FEBRUARY, 11, 9, 0), "User 1. Завтрак", 500)) ;
+        controller.create(new Meal(LocalDateTime.of(2021, Month.FEBRUARY, 11, 14, 0), "User 1. Обед", 1200)) ;
+        controller.create(new Meal(LocalDateTime.of(2021, Month.FEBRUARY, 11, 20, 0), "User 1. Ужин", 430)) ;
         SecurityUtil.setAuthUserId(2);
-        controller.create(new Meal(LocalDateTime.of(2021, Month.FEBRUARY, 10, 10, 0), "Завтрак", 500)) ;
-        controller.create(new Meal(LocalDateTime.of(2021, Month.FEBRUARY, 10, 13, 0), "Обед", 1100)) ;
-        controller.create(new Meal(LocalDateTime.of(2021, Month.FEBRUARY, 10, 19, 0), "Ужин", 300)) ;
-        controller.create(new Meal(LocalDateTime.of(2021, Month.FEBRUARY, 10, 23, 0), "Ужин", 200)) ;
+        controller.create(new Meal(LocalDateTime.of(2021, Month.FEBRUARY, 10, 10, 0), "User 2. Завтрак", 500)) ;
+        controller.create(new Meal(LocalDateTime.of(2021, Month.FEBRUARY, 10, 13, 0), "User 2. Обед", 1100)) ;
+        controller.create(new Meal(LocalDateTime.of(2021, Month.FEBRUARY, 10, 19, 0), "User 2. Ужин", 300)) ;
+        controller.create(new Meal(LocalDateTime.of(2021, Month.FEBRUARY, 10, 23, 0), "User 2. Ужин", 200)) ;
     }
 
     public static List<MealTo> getTos(Collection<Meal> meals, int caloriesPerDay) {

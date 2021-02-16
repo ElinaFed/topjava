@@ -50,8 +50,7 @@ public class InMemoryUserRepository implements UserRepository {
     @Override
     public List<User> getAll() {
         log.info("getAll");
-        Comparator<User> compareByNameAndEmail
-                = Comparator.comparing(User::getName).thenComparing(User::getEmail);
+        Comparator<User> compareByNameAndEmail = Comparator.comparing(User::getName).thenComparing(User::getEmail);
         List<User> users = repository.values().stream()
                 .sorted(compareByNameAndEmail)
                 .collect(Collectors.toList());
@@ -65,6 +64,6 @@ public class InMemoryUserRepository implements UserRepository {
                 .stream()
                 .filter(us -> us.getEmail().equalsIgnoreCase(email))
                 .findAny();
-        return filteredUser.isPresent() ? filteredUser.get() : null;
+        return filteredUser.orElse(null);
     }
 }
