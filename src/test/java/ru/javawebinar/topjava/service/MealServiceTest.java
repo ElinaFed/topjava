@@ -3,9 +3,10 @@ package ru.javawebinar.topjava.service;
 import org.junit.AfterClass;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TestWatcher;
+import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runner.RunWith;
+import org.junit.runners.model.Statement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,6 @@ import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
-import ru.javawebinar.topjava.web.meal.MealRestController;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -34,24 +34,27 @@ import static ru.javawebinar.topjava.UserTestData.USER_ID;
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
 public class MealServiceTest {
 
-    private static final Logger log = LoggerFactory.getLogger(MealRestController.class);
+    private static final Logger log = LoggerFactory.getLogger(MealServiceTest.class);
     private static final StringBuilder strAfterLog = new StringBuilder();
 
     @Rule
-    public final TestWatcher myWatcher = new TestWatcher() {
+    public final TestRule myRule = new TestRule() {
         private long start = 0;
 
-        protected void starting(Description description) {
-            start = System.currentTimeMillis();
-        }
-
-        protected void finished(Description description) {
-
-            String testName = description.getMethodName();
-            long elapsed = System.currentTimeMillis() - start;
-            String str = String.format("Test %s took %d ms.", testName, elapsed);
-            strAfterLog.append(str + "\n");
-            log.info(str);
+        @Override
+        public Statement apply(final Statement base, Description description) {
+            return new Statement() {
+                @Override
+                public void evaluate() throws Throwable {
+                    start = System.nanoTime();
+                    base.evaluate();
+                    String testName = description.getMethodName();
+                    long elapsed = (long) ((System.nanoTime() - start) * Math.pow(10, -6));
+                    String str = String.format("%s  %d ms.", testName, elapsed);
+                    strAfterLog.append(str + "\n");
+                    log.info(str);
+                }
+            };
         }
     };
 
