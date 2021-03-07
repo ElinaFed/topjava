@@ -26,7 +26,6 @@ public class UserService {
         Assert.notNull(user, "user must not be null");
         return repository.save(user);
     }
-
     @CacheEvict(value = "users", allEntries = true)
     public void delete(int id) {
         checkNotFoundWithId(repository.delete(id), id);

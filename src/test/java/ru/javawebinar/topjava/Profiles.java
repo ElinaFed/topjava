@@ -5,6 +5,7 @@ import org.springframework.test.context.ActiveProfilesResolver;
 import org.springframework.util.ClassUtils;
 
 public class Profiles {
+
     public static final String
             JDBC = "jdbc",
             JPA = "jpa",
@@ -15,6 +16,7 @@ public class Profiles {
     public static final String
             POSTGRES_DB = "postgres",
             HSQL_DB = "hsqldb";
+
 
     //  Get DB profile depending of DB driver in classpath
     public static String getActiveDbProfile() {
@@ -31,7 +33,8 @@ public class Profiles {
     public static class ActiveDbProfileResolver implements ActiveProfilesResolver {
         @Override
         public @NonNull String[] resolve(@NonNull Class<?> aClass) {
-            return new String[]{getActiveDbProfile()};
+
+            return new String[]{getActiveDbProfile(),REPOSITORY_IMPLEMENTATION};
         }
     }
 }
