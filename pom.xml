@@ -218,16 +218,6 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
         </profile>
-
-        <profile>
-            <id>jbdc</id>
-        </profile>
-        <profile>
-            <id>jpa</id>
-        </profile>
-        <profile>
-            <id>datajpa</id>
-        </profile>
     </profiles>
 
     <dependencyManagement>

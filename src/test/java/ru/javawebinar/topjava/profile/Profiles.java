@@ -1,22 +1,13 @@
-package ru.javawebinar.topjava;
+package ru.javawebinar.topjava.profile;
 
 import org.springframework.lang.NonNull;
 import org.springframework.test.context.ActiveProfilesResolver;
 import org.springframework.util.ClassUtils;
 
 public class Profiles {
-
-    public static final String
-            JDBC = "jdbc",
-            JPA = "jpa",
-            DATAJPA = "datajpa";
-
-    public static final String REPOSITORY_IMPLEMENTATION = DATAJPA;
-
     public static final String
             POSTGRES_DB = "postgres",
             HSQL_DB = "hsqldb";
-
 
     //  Get DB profile depending of DB driver in classpath
     public static String getActiveDbProfile() {
@@ -32,9 +23,10 @@ public class Profiles {
     //http://stackoverflow.com/questions/23871255/spring-profiles-simple-example-of-activeprofilesresolver
     public static class ActiveDbProfileResolver implements ActiveProfilesResolver {
         @Override
-        public @NonNull String[] resolve(@NonNull Class<?> aClass) {
+        public @NonNull
+        String[] resolve(@NonNull Class<?> aClass) {
 
-            return new String[]{getActiveDbProfile(),REPOSITORY_IMPLEMENTATION};
+            return new String[]{getActiveDbProfile()};
         }
     }
 }

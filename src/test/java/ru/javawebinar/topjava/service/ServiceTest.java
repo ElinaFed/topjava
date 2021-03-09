@@ -13,7 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringRunner;
-import ru.javawebinar.topjava.Profiles;
+import ru.javawebinar.topjava.profile.Profiles;
 
 import java.util.concurrent.TimeUnit;
 
@@ -51,26 +51,27 @@ public abstract class ServiceTest {
                 "\n---------------------------------" +
                 results +
                 "\n---------------------------------");
+        results.setLength(0);
     }
 
     @Test
-    public abstract void delete();
+    public void delete() {}
 
     @Test
-    public abstract void create();
+    public void create() {}
 
     @Test
-    public abstract void get();
+    public void get() {}
 
     @Test
-    public abstract void update();
+    public void update(){}
 
     @Test
-    public abstract void getAll();
+    public void getAll() {}
 
     @Test
-    public abstract void getNotFound();
+    public void getNotFound() {}
 
     @Test
-    public abstract void deletedNotFound();
+    public void deletedNotFound(){}
 }
